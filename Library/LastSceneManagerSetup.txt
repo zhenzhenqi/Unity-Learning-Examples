@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/instantiation.unity
+- path: Assets/scenes/TMProDemo.unity
   isLoaded: 1
   isActive: 1

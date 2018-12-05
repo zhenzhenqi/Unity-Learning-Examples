@@ -1,10 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic; 
 using UnityEngine;
 
 public class camManager : MonoBehaviour
 {
-	public float speed;
+	Rigidbody rb;
+	float speed;
 	//public MirrorManager MM;
 
 	float area;
@@ -18,15 +19,27 @@ public class camManager : MonoBehaviour
 	float phi;
 
 	Quaternion originalRot;
-	GameObject target;
+
+
+	GameObject[] bricks; //all bricks
+	GameObject target; //lookAt target
+
 
 	// Use this for initialization
 	void Start()
 	{
+		bricks = GameObject.FindGameObjectsWithTag("brick");
+
+		Physics.gravity = new Vector3(0, Random.Range(-1.0f, 0.0f), 0);
+		rb = GetComponent<Rigidbody>();
+		rb.drag = Random.Range(0.0f, 3.0f);
 		//area = MirrorManager.instance.matrixDiameter;
 		generateRadius ();
 		generateAngel ();
 		updatePos ();
+		findTarget();
+
+		InvokeRepeating("findTarget", 1f, 2f);
 	}
 
 	// Update is called once per frame
@@ -36,7 +49,7 @@ public class camManager : MonoBehaviour
 		//target = MirrorManager.instance.centerCube;
 		transform.LookAt(target.transform);
 
-		speed = Random.Range (-0.01f, 0.01f);
+	    speed = 0.001f;
 		move (speed);
 		updatePos ();
 	}
@@ -55,7 +68,7 @@ public class camManager : MonoBehaviour
 	}
 
 	public void generateRadius(){
-		//r = MirrorManager.instance.matrixDiameter * Random.Range(0, 2); //start some
+		r = Random.Range(5.0f, 10.0f);
 	}
 
 	private void move(float speed){
@@ -72,5 +85,12 @@ public class camManager : MonoBehaviour
 		transform.position = nextPos;
 	}
 
+	private void findTarget(){
+		int index = Random.Range (0, bricks.Length);
+		target = bricks [index];
 
+		generateRadius ();
+		generateAngel ();
+	}
 }
+
