@@ -24,7 +24,7 @@ public class PlayerController1 : MonoBehaviour {
 		rb.AddForce (movement * speed);
 	}
 
-	void OnTriggerEnter(Collider other)
+	void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.tag == "wall") {
 			Vector3 pos = gameObject.transform.position;
